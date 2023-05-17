@@ -1,8 +1,9 @@
-import { faBolt, faBuilding, faFilePdf, faFilter, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faBolt, faBuilding, faBuildingUser, faCity, faFilePdf, faFilter, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { Fragment, useState } from 'react'
-import { Button, Container, Dropdown, FormControl, Image, Nav, Navbar } from 'react-bootstrap'
+import { Button, ButtonGroup, Container, Dropdown, FormControl, Image, Nav, Navbar } from 'react-bootstrap'
 import '../styles/CustomNavbar.css'
+import DropdownToggle from 'react-bootstrap/esm/DropdownToggle'
 
 const CustomNavbar = ({ activeFilter, setActiveFilter }) => {
   const [dropdownLabel, setDropdownLabel] = useState('Filtrar')
@@ -19,20 +20,24 @@ const CustomNavbar = ({ activeFilter, setActiveFilter }) => {
       case 'CONCESSAO':
         document.title = 'Filtrar por concessão'
         setDropdownLabel('Por concessão')
-        setDropdownIcon(faBuilding)
+        setDropdownIcon(faCity)
         break;
       case 'FUNCAO':
-        document.title = 'Filtrar por função'
-        document.
+        document.title = 'Filtrar por função';
         setDropdownLabel('Por função')
         setDropdownIcon(faBolt)
+        break;
+      case 'EMPRESA':
+        document.title = 'Filtrar por empresa';
+        setDropdownLabel('Por empresa');
+        setDropdownIcon(faBuilding)
         break;
       default:
         return;
     }
   }
   return (
-    <Navbar sticky='top' expand='sm' style={{backgroundColor: 'white'}}>
+    <Navbar sticky='top' expand='sm' style={{ backgroundColor: 'white' }}>
       <Container fluid>
         <Navbar.Brand href='/'>
           <Image src='https://amatoscar.pt/assets/media/general/logoamatoscar.webp' height="40px" />
@@ -59,11 +64,19 @@ const CustomNavbar = ({ activeFilter, setActiveFilter }) => {
               <Dropdown.Menu>
                 <Dropdown.Item active={activeFilter === 'CONCESSAO'} onClick={() => handleItemClick('CONCESSAO')}>
                   Por Concessão
-                  <FontAwesomeIcon className='ms-2' icon={faBuilding} />
+                  <FontAwesomeIcon className='ms-2' icon={faCity} />
                 </Dropdown.Item>
                 <Dropdown.Item active={activeFilter === 'FUNCAO'} onClick={() => handleItemClick('FUNCAO')}>
                   Por Função
                   <FontAwesomeIcon className='ms-2' icon={faBolt} />
+                </Dropdown.Item>
+                <Dropdown.Item active={activeFilter === 'EMPRESA'} onClick={() => handleItemClick('EMPRESA')}>
+                  Por Empresa
+                  <FontAwesomeIcon className='ms-2' icon={faBuilding} />
+                </Dropdown.Item>
+                <Dropdown.Item active={activeFilter === 'DEPARTAMENTO'} onClick={() => handleItemClick('DEPARTAMENTO')}>
+                  Por Departamento
+                  <FontAwesomeIcon className='ms-2' icon={faBuildingUser} />
                 </Dropdown.Item>
                 {activeFilter !== 'ALL' && (
                   <Fragment>
@@ -79,8 +92,8 @@ const CustomNavbar = ({ activeFilter, setActiveFilter }) => {
           </Nav>
 
         </Navbar.Collapse>
-      </Container>
-    </Navbar>
+      </Container >
+    </Navbar >
   )
 }
 

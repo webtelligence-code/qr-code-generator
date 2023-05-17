@@ -2,16 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import CustomNavbar from '../components/CustomNavbar'
 import CustomTable from '../components/CustomTable'
+import LoadingBars from '../components/utility/LoadingBars'
 
 const HomePage = ({ users, API_URL }) => {
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [groupedUsers, setGroupedUsers] = useState(users);
 
   useEffect(() => {
+    setGroupedUsers([])
     if (activeFilter === 'ALL') {
       document.title = 'Todos os utilizadores'
       setGroupedUsers(users);
-    } else if (activeFilter === 'CONCESSAO' || activeFilter === 'FUNCAO') {
+    } else {
       const newGroupedUsers = users.reduce((acc, user) => {
         const key = user[activeFilter];
         if(!acc[key]) {
