@@ -1,0 +1,39 @@
+.App {
+  text-align: center;
+}
+
+.filter-child-button {
+  border: none;
+  width: 175px;
+  height: 35px;
+  color: white;
+  margin-inline: 10px;
+  border-radius: 5px;
+}
+
+.filter-child-button:hover {
+  background-color: #a52323;
+}
+
+.generate-pdf-button {
+  background-color: #c62828;
+  border: none;
+  width: auto;
+  height: 35px;
+  color: white;
+  margin-inline: 10px;
+  border-radius: 5px;
+}
+
+.dropdown-filter-button {
+  background-color: #c62828;
+  border: none;
+  color: white;
+  margin-inline: 10px;
+  border-radius: 5px;
+  padding-inline: 10px;
+}
+
+.select-filter {
+  width: 250px;
+}

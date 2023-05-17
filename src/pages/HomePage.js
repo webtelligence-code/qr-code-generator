@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import CustomNavbar from '../components/CustomNavbar'
 import CustomTable from '../components/CustomTable'
-import LoadingBars from '../components/utility/LoadingBars'
 
 const HomePage = ({ users, API_URL }) => {
   const [activeFilter, setActiveFilter] = useState('ALL');
+  const [activeFilterChild, setActiveFilterChild] = useState('ALL');
   const [groupedUsers, setGroupedUsers] = useState(users);
 
   useEffect(() => {
@@ -16,13 +16,13 @@ const HomePage = ({ users, API_URL }) => {
     } else {
       const newGroupedUsers = users.reduce((acc, user) => {
         const key = user[activeFilter];
-        if(!acc[key]) {
+        if (!acc[key]) {
           acc[key] = [];
         }
         acc[key].push(user);
         return acc;
       }, {});
-      
+
       const orderedKeys = Object.keys(newGroupedUsers).sort();
       const orderedGroupedUsers = orderedKeys.reduce((acc, key) => {
         acc[key] = newGroupedUsers[key];
@@ -39,7 +39,13 @@ const HomePage = ({ users, API_URL }) => {
 
   return (
     <Container fluid>
-      <CustomNavbar activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+      <CustomNavbar
+        activeFilter={activeFilter}
+        setActiveFilter={setActiveFilter}
+        activeFilterChild={activeFilterChild}
+        setActiveFilterChild={setActiveFilterChild}
+        filteredKeys={Object.keys(groupedUsers)}
+      />
       <CustomTable users={groupedUsers} activeFilter={activeFilter} qrCodeSize={100} />
     </Container>
   )
