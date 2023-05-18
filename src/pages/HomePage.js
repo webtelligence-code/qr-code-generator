@@ -5,13 +5,14 @@ import CustomTable from '../components/CustomTable'
 
 const HomePage = ({ users, API_URL }) => {
   const [activeFilter, setActiveFilter] = useState('ALL');
-  const [activeFilterChild, setActiveFilterChild] = useState('ALL');
-  const [groupedUsers, setGroupedUsers] = useState(users);
+  const [activeFilterChild, setActiveFilterChild] = useState('NONE');
+  const [allGroupedUsers, setAllGroupedUsers] = useState(users);  // Store all options
+  const [groupedUsers, setGroupedUsers] = useState(users);  // Store filtered results
 
   useEffect(() => {
-    setGroupedUsers([])
     if (activeFilter === 'ALL') {
       document.title = 'Todos os utilizadores'
+      setAllGroupedUsers(users);
       setGroupedUsers(users);
     } else {
       const newGroupedUsers = users.reduce((acc, user) => {
@@ -29,13 +30,25 @@ const HomePage = ({ users, API_URL }) => {
         return acc;
       }, {});
 
+      setAllGroupedUsers(orderedGroupedUsers);
       setGroupedUsers(orderedGroupedUsers);
     }
   }, [activeFilter, users])
 
   useEffect(() => {
-    console.log('Grouped Users:', groupedUsers)
-  }, [groupedUsers])
+    if (activeFilterChild !== 'NONE') {
+      setGroupedUsers(prevGroupedUsers => {
+        return Object.keys(prevGroupedUsers)
+          .filter(key => key === activeFilterChild)
+          .reduce((obj, key) => {
+            obj[key] = prevGroupedUsers[key];
+            return obj;
+          }, {});
+      });
+    } else {
+      setGroupedUsers(allGroupedUsers);
+    }
+  }, [activeFilterChild, allGroupedUsers]);
 
   return (
     <Container fluid>
@@ -44,11 +57,12 @@ const HomePage = ({ users, API_URL }) => {
         setActiveFilter={setActiveFilter}
         activeFilterChild={activeFilterChild}
         setActiveFilterChild={setActiveFilterChild}
-        filteredKeys={Object.keys(groupedUsers)}
+        filteredKeys={Object.keys(allGroupedUsers)}
       />
       <CustomTable users={groupedUsers} activeFilter={activeFilter} qrCodeSize={100} />
     </Container>
   )
 }
+
 
 export default HomePage

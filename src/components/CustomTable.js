@@ -4,9 +4,11 @@ import { Card, Table } from 'react-bootstrap';
 import LoadingBars from './utility/LoadingBars';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
 import QRCode from 'qrcode';
+import PDFTable from './PDFTable';
+import { pdf } from '@react-pdf/renderer';
+
+
 
 const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
   const [loading, setLoading] = useState(true);
@@ -33,42 +35,33 @@ const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
   const generatePDF = async (header, userData) => {
     setDisabled(true);
     setButtonLabel("A gerar PDF...");
-    const doc = new jsPDF();
-    const tableColumn = ['Nome', 'Empresa', 'Departamento', 'Função', 'QRCode'];
-    const tableRows = [];
 
+    const usersDataWithQRCode = [];
     for (const user of userData) {
       const qrCodeImageUrl = await generateQRCodeForPDF(user.NAME);
-      const userData = [
-        user.NAME,
-        user.EMPRESA,
-        user.DEPARTAMENTO,
-        user.FUNCAO,
-        { qrCodeData: qrCodeImageUrl }
-      ];
-      tableRows.push(userData);
+      usersDataWithQRCode.push({
+        NAME: user.NAME,
+        EMPRESA: user.EMPRESA,
+        DEPARTAMENTO: user.DEPARTAMENTO,
+        FUNCAO: user.FUNCAO,
+        qrCodeData: qrCodeImageUrl,
+      });
     }
 
-    doc.text(header, 14, 30);
-    autoTable(doc, {
-      head: [tableColumn],
-      body: tableRows,
-      startY: 40,
-      didDrawCell: (data) => {
-        if (data.section === 'body' && data.column.index === 4) {
-          const qrCodeData = data.cell.raw.qrCodeData;
-          doc.addImage(qrCodeData, 'PNG', data.cell.x + 1, data.cell.y + 1, 25, 25);
-        }
-      },
-      styles: { cellPadding: 1, minCellHeight: 30 }, // Adjust cell padding and minimum cell height
-      headStyles: { fillColor: '#ed6337' }
-    });
-
-    doc.save(`${header}.pdf`)
-
     setDisabled(false);
-    setButtonLabel('Download PDF');
+    setButtonLabel('Gerar PDF');
+
+    const blob = await pdf(<PDFTable header={header} userData={usersDataWithQRCode} />).toBlob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${header}.pdf`;
+    link.click();
+
+    // Cleanup - URL.revokeObjectURL needs to be called when the blob URL isn't needed any more
+    URL.revokeObjectURL(url);
   }
+
 
   if (activeFilter === 'ALL') {
     return (
@@ -99,6 +92,7 @@ const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
               icon={faFilePdf}
             />
           </button>
+
         </Card.Header>
         <Card.Body>
           <Table hover responsive>
@@ -163,11 +157,14 @@ const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
               {KEY}
               <button
                 onClick={() => generatePDF(KEY, users[KEY])}
-                className='ms-2'
+                className='generate-pdf-button'
                 disabled={disabled}
               >
                 {buttonLabel}
-                <FontAwesomeIcon className='ms-2' icon={faFilePdf} />
+                <FontAwesomeIcon
+                  className='ms-2'
+                  icon={faFilePdf}
+                />
               </button>
             </Card.Header>
             <Card.Body>

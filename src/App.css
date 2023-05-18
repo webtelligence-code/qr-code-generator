@@ -19,7 +19,6 @@
   background-color: #c62828;
   border: none;
   width: auto;
-  height: 35px;
   color: white;
   margin-inline: 10px;
   border-radius: 5px;
@@ -36,4 +35,5 @@
 
 .select-filter {
   width: 250px;
+  margin-inline: 10px;
 }
