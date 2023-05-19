@@ -6,7 +6,6 @@ import CustomTable from '../components/CustomTable'
 const HomePage = ({ users, sessionDepartment, API_URL }) => {
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [activeFilterChild, setActiveFilterChild] = useState('NONE');
-  const [activeFilterChild2, setActiveFilterChild2] = useState('NONE');
   const [allGroupedUsers, setAllGroupedUsers] = useState(users);  // Store all options
   const [groupedUsers, setGroupedUsers] = useState(users);  // Store filtered results
 
@@ -35,7 +34,7 @@ useEffect(() => {
     setAllGroupedUsers(orderedGroupedUsers);
     setGroupedUsers(orderedGroupedUsers);
   }
-}, [activeFilter, users])
+}, [activeFilter, users]);
 
 // Use effect for filter child select
 useEffect(() => {
@@ -60,8 +59,6 @@ return (
       setActiveFilter={setActiveFilter}
       activeFilterChild={activeFilterChild}
       setActiveFilterChild={setActiveFilterChild}
-      activeFilterChild2={activeFilterChild2}
-      setActiveFilterChild2={setActiveFilterChild2}
       filteredKeys={Object.keys(allGroupedUsers)}
     />
     <CustomTable users={groupedUsers} activeFilter={activeFilter} qrCodeSize={100} />
