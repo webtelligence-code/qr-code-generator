@@ -15,6 +15,9 @@ function getUsername()
 {
   return $_SESSION['USERNAME'];
 }
+function getDepartment() {
+  return $_SESSION['DEPARTAMENTO'];
+}
 // Function that will fetch all users (guests) from the database
 function getUsers()
 {

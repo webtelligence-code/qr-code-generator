@@ -21,6 +21,9 @@ switch ($method) {
       case 'get_username':
         $response = getUsername();
         break;
+      case 'get_department':
+        $response = getDepartment();
+        break;
       case 'get_users':
         $response = getUsers();
         break;

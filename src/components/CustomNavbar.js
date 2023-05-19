@@ -1,12 +1,13 @@
 import { faBolt, faBuilding, faBuildingUser, faCity } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
-import { Container, FormControl, Image, Nav, Navbar } from 'react-bootstrap'
+import { Container, Nav, Navbar } from 'react-bootstrap'
 import Select from 'react-select';
 
-const CustomNavbar = ({ activeFilter, setActiveFilter, setActiveFilterChild, filteredKeys }) => {
+const CustomNavbar = ({ activeFilter, setActiveFilter, activeFilterChild, setActiveFilterChild, activeFilterChild2, setActiveFilterChild2, filteredKeys }) => {
   const [dropdownFilterChildLabel, setDropdownFilterChildLabel] = useState('Escolha um filtro');
   const [isSelectedFilterChild, setIsSelectedFilterChild] = useState(false);
+  const [isSelectedFilterChild2, setIsSelectedFilterChild2] = useState(false);
 
   const handleItemFilterClick = (item) => {
     setActiveFilter(item)
@@ -45,21 +46,23 @@ const CustomNavbar = ({ activeFilter, setActiveFilter, setActiveFilterChild, fil
     }
   }
 
+  const handleItemFilterChild2Click = (item) => {
+    setActiveFilterChild2(item)
+    if (item !== 'NONE') {
+      setIsSelectedFilterChild2(true)
+    } else {
+      setIsSelectedFilterChild2(false)
+    }
+  }
+
   return (
     <Navbar sticky='top' expand='sm' style={{ backgroundColor: 'white' }}>
       <Container fluid>
-        <Navbar.Brand href='/'>
-          <Image src='https://amatoscar.pt/assets/media/general/logoamatoscar.webp' height="40px" />
-        </Navbar.Brand>
         <Navbar.Toggle aria-controls='navbarScroll' />
-        <Navbar.Collapse className='justify-content-center' id='basic-navbar-nav'>
-          <FormControl
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <Nav className='align-items-center mx-2'>
+        <Navbar.Collapse className='justify-content-start' id='basic-navbar-nav'>
+          <Nav className='text-center'>
 
+            {/* Select by Concessão, Departamento, Função, Empresa */}
             <Select
               onChange={(e) => handleItemFilterClick(e !== null ? e.value : 'ALL')}
               isDisabled={isSelectedFilterChild}
@@ -75,15 +78,30 @@ const CustomNavbar = ({ activeFilter, setActiveFilter, setActiveFilterChild, fil
               ]}
             />
 
-            <Select
-              onChange={(e) => handleItemFilterChildClick(e !== null ? e.value : 'NONE')}
-              isDisabled={activeFilter === 'ALL'}
-              placeholder={dropdownFilterChildLabel}
-              className='select-filter'
-              isClearable={true}
-              name="filtro"
-              options={filteredKeys.map(key => ({ value: key, label: key }))}
-            />
+            {/* Select by keys from parent filter */}
+            {activeFilter !== 'ALL' && (
+              <Select
+                isDisabled={isSelectedFilterChild2}
+                onChange={(e) => handleItemFilterChildClick(e !== null ? e.value : 'NONE')}
+                placeholder={dropdownFilterChildLabel}
+                className='select-filter ms-2'
+                isClearable={true}
+                name="filtro"
+                options={filteredKeys.map(key => ({ value: key, label: key }))}
+              />
+            )}
+
+            {/* Here i want to add a condition that if teh active filter === CONCESSAO then it will render all FUNÇAO options present in the CONCESSION selected */}
+            {activeFilterChild !== 'NONE' && (
+              <Select
+                onChange={(e) => handleItemFilterChild2Click(e !== null ? e.value : 'NONE')}
+                placeholder={dropdownFilterChildLabel}
+                className='select-filter ms-2'
+                isClearable={true}
+                name="filtro"
+                options={filteredKeys.map(key => ({ value: key, label: key }))}
+              />
+            )}
           </Nav>
 
         </Navbar.Collapse>

@@ -8,6 +8,7 @@ const API_URL = 'https://webtelligence.pt/api/qr-code-generator/index.php';
 
 function App() {
   const [users, setUsers] = useState([]);
+  const [sessionDepartment, setSessionDepartment] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,7 +33,30 @@ function App() {
     getUsers()
   }, []);
 
-  return (loading ? (<LoadingBars />) : (<HomePage users={users} API_URL={API_URL} />));
+  useEffect(() => {
+    const getDepartment = () => {
+      axios.get(API_URL, {
+        params: {
+          action: 'get_department',
+        }
+      })
+      .then((response) => {
+        setSessionDepartment(response.data);
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.error('Failed to fetch session department variable:', error)
+      })
+    }
+
+    getDepartment();
+  }, [])
+
+  useEffect(() => {
+    if (sessionDepartment) console.log('Session Department:', sessionDepartment);
+  }, [sessionDepartment])
+
+  return (loading ? (<LoadingBars />) : (<HomePage users={users} sessionDepartment={sessionDepartment} API_URL={API_URL} />));
 }
 
 export default App;

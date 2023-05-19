@@ -1,6 +1,6 @@
 import { QRCodeSVG } from 'qrcode.react';
 import React, { Fragment, useEffect, useState } from 'react'
-import { Card, Table } from 'react-bootstrap';
+import { Card, Image, Table } from 'react-bootstrap';
 import LoadingBars from './utility/LoadingBars';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
@@ -8,9 +8,7 @@ import QRCode from 'qrcode';
 import PDFTable from './PDFTable';
 import { pdf } from '@react-pdf/renderer';
 
-
-
-const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
+const CustomTable = ({ users, activeFilter, qrCodeSize, searchInput }) => {
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(false);
   const [buttonLabel, setButtonLabel] = useState('Gerar PDF');
@@ -62,7 +60,6 @@ const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
     URL.revokeObjectURL(url);
   }
 
-
   if (activeFilter === 'ALL') {
     return (
       <Card
@@ -81,17 +78,13 @@ const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
           as='h5'
         >
           Todos os utilizadores
-          <button
+          <Image
+            src='qr-code-generator/assets/img/pdf-download-2.png'
             onClick={() => generatePDF('Utilizadores', users)}
-            className='generate-pdf-button'
-            disabled={disabled}
-          >
-            {buttonLabel}
-            <FontAwesomeIcon
-              className='ms-2'
-              icon={faFilePdf}
-            />
-          </button>
+            height={40}
+            alt='download-pdf'
+            style={{ cursor: 'pointer', padding: 0 }}
+          />
 
         </Card.Header>
         <Card.Body>
@@ -155,17 +148,13 @@ const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
               as='h5'
             >
               {KEY}
-              <button
+              <Image
+                src='qr-code-generator/assets/img/pdf-download-2.png'
                 onClick={() => generatePDF(KEY, users[KEY])}
-                className='generate-pdf-button'
-                disabled={disabled}
-              >
-                {buttonLabel}
-                <FontAwesomeIcon
-                  className='ms-2'
-                  icon={faFilePdf}
-                />
-              </button>
+                height={40}
+                alt='download-pdf'
+                style={{ cursor: 'pointer', padding: 0 }}
+              />
             </Card.Header>
             <Card.Body>
               <Table hover responsive>
