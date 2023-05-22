@@ -12,6 +12,25 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const getDepartment = () => {
+      axios.get(API_URL, {
+        params: {
+          action: 'get_department',
+        }
+      })
+        .then((response) => {
+          setSessionDepartment(response.data);
+          setLoading(false)
+        })
+        .catch((error) => {
+          console.error('Failed to fetch session department variable:', error)
+        })
+    }
+
+    getDepartment();
+  }, [])
+
+  useEffect(() => {
     document.title = 'A carregar utilizadores...';
 
     const getUsers = () => {
@@ -21,7 +40,8 @@ function App() {
         }
       })
         .then((response) => {
-          setUsers(response.data);
+          const filteredUsers = response.data.filter(user => user.DEPARTAMENTO === sessionDepartment);
+          setUsers(filteredUsers);
           setLoading(false);
           document.title = 'Utilizadores'
         })
@@ -31,26 +51,7 @@ function App() {
     }
 
     getUsers()
-  }, []);
-
-  useEffect(() => {
-    const getDepartment = () => {
-      axios.get(API_URL, {
-        params: {
-          action: 'get_department',
-        }
-      })
-      .then((response) => {
-        setSessionDepartment(response.data);
-        setLoading(false)
-      })
-      .catch((error) => {
-        console.error('Failed to fetch session department variable:', error)
-      })
-    }
-
-    getDepartment();
-  }, [])
+  }, [sessionDepartment]);
 
   useEffect(() => {
     if (sessionDepartment) console.log('Session Department:', sessionDepartment);

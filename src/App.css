@@ -27,3 +27,11 @@
 .select-filter {
   width: 275px;
 }
+
+.user-manual-button {
+  background-color: #ed6337;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding-inline: 10px;
+}

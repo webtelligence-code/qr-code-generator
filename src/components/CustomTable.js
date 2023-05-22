@@ -8,10 +8,8 @@ import QRCode from 'qrcode';
 import PDFTable from './PDFTable';
 import { pdf } from '@react-pdf/renderer';
 
-const CustomTable = ({ users, activeFilter, qrCodeSize, searchInput }) => {
+const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
   const [loading, setLoading] = useState(true);
-  const [disabled, setDisabled] = useState(false);
-  const [buttonLabel, setButtonLabel] = useState('Gerar PDF');
 
   useEffect(() => {
     setLoading(true)
@@ -31,8 +29,6 @@ const CustomTable = ({ users, activeFilter, qrCodeSize, searchInput }) => {
   }
 
   const generatePDF = async (header, userData) => {
-    setDisabled(true);
-    setButtonLabel("A gerar PDF...");
 
     const usersDataWithQRCode = [];
     for (const user of userData) {
@@ -46,9 +42,6 @@ const CustomTable = ({ users, activeFilter, qrCodeSize, searchInput }) => {
       });
     }
 
-    setDisabled(false);
-    setButtonLabel('Gerar PDF');
-
     const blob = await pdf(<PDFTable header={header} userData={usersDataWithQRCode} />).toBlob();
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -59,6 +52,7 @@ const CustomTable = ({ users, activeFilter, qrCodeSize, searchInput }) => {
     // Cleanup - URL.revokeObjectURL needs to be called when the blob URL isn't needed any more
     URL.revokeObjectURL(url);
   }
+  
 
   if (activeFilter === 'ALL') {
     return (
@@ -124,9 +118,8 @@ const CustomTable = ({ users, activeFilter, qrCodeSize, searchInput }) => {
 
   return (
     <Fragment>
-      {Object.keys(users).map((KEY, key) => {
+      {users.length > 0 && Object.keys(users).map((KEY, key) => {
         if (!Array.isArray(users[KEY])) {
-          console.error(`users[${KEY}] is not an array!`, users[KEY]);
           return null; // Skip this iteration.
         }
 

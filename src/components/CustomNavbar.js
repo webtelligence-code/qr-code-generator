@@ -1,49 +1,22 @@
-import { faBolt, faBuilding, faBuildingUser, faCity } from '@fortawesome/free-solid-svg-icons'
+import { faBolt, faBook, faBookOpen, faBuilding, faBuildingUser, faCity } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Tooltip } from 'antd';
 import React, { useState } from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import Select from 'react-select';
 
-const CustomNavbar = ({ activeFilter, setActiveFilter, activeFilterChild, setActiveFilterChild, filteredKeys }) => {
-  const [dropdownFilterChildLabel, setDropdownFilterChildLabel] = useState('Escolha um filtro');
-  const [isSelectedFilterChild, setIsSelectedFilterChild] = useState(false);
+const CustomNavbar = ({ activeFilter, setActiveFilter }) => {
 
   const handleItemFilterClick = (item) => {
     setActiveFilter(item)
-    switch (item) {
-      case 'ALL':
-        document.title = 'Todos os utilizadores'
-        setDropdownFilterChildLabel('Escolha um filtro')
-        break;
-      case 'CONCESSAO':
-        document.title = 'Filtrar por concessão'
-        setDropdownFilterChildLabel(<label>Escolher Concessão <FontAwesomeIcon className='ms-2' icon={faCity} /></label>)
-        break;
-      case 'FUNCAO':
-        document.title = 'Filtrar por função';
-        setDropdownFilterChildLabel(<label>Escolher função <FontAwesomeIcon className='ms-2' icon={faCity} /></label>)
-        break;
-      case 'EMPRESA':
-        document.title = 'Filtrar por empresa';
-        setDropdownFilterChildLabel(<label>Escolher empresa <FontAwesomeIcon className='ms-2' icon={faCity} /></label>)
-        break;
-      case 'DEPARTAMENTO':
-        document.title = 'Filtrar por departamento';
-        setDropdownFilterChildLabel(<label>Escolher departamento <FontAwesomeIcon className='ms-2' icon={faCity} /></label>)
-        break;
-      default:
-        return;
-    }
   }
 
-  const handleItemFilterChildClick = (item) => {
-    setActiveFilterChild(item)
-    if (item !== 'NONE') {
-      setIsSelectedFilterChild(true)
-    } else {
-      setIsSelectedFilterChild(false)
-    }
-  }
+  const firstSelectOptions = [
+    { value: 'CONCESSAO', label: <label>Por Concessão <FontAwesomeIcon className='ms-2' icon={faCity} /></label> },
+    { value: 'FUNCAO', label: <label>Por Função <FontAwesomeIcon className='ms-2' icon={faBolt} /></label> },
+    { value: 'EMPRESA', label: <label>Por Empresa <FontAwesomeIcon className='ms-2' icon={faBuilding} /></label> },
+    { value: 'DEPARTAMENTO', label: <label>Por Departamento <FontAwesomeIcon className='ms-2' icon={faBuildingUser} /></label> }
+  ];
 
   return (
     <Navbar sticky='top' expand='sm' style={{ backgroundColor: 'white' }}>
@@ -52,33 +25,25 @@ const CustomNavbar = ({ activeFilter, setActiveFilter, activeFilterChild, setAct
         <Navbar.Collapse className='justify-content-start' id='basic-navbar-nav'>
           <Nav className='text-center'>
 
+            <Tooltip title="Manual de utilizador">
+              <button
+                className='user-manual-button'
+                style={{ marginLeft: -10, marginRight: 10 }}
+              >
+                <FontAwesomeIcon icon={faBookOpen} />
+              </button>
+            </Tooltip>
+
             {/* Select by Concessão, Departamento, Função, Empresa */}
             <Select
               onChange={(e) => handleItemFilterClick(e !== null ? e.value : 'ALL')}
-              isDisabled={isSelectedFilterChild}
+              value={activeFilter === 'ALL' ? null : firstSelectOptions[3]}
               placeholder='Filtrar tabelas'
               className='select-filter'
               isClearable={true}
               name="filtro"
-              options={[
-                { value: 'CONCESSAO', label: <label>Por Concessão <FontAwesomeIcon className='ms-2' icon={faCity} /></label> },
-                { value: 'FUNCAO', label: <label>Por Função <FontAwesomeIcon className='ms-2' icon={faBolt} /></label> },
-                { value: 'EMPRESA', label: <label>Por Empresa <FontAwesomeIcon className='ms-2' icon={faBuilding} /></label> },
-                { value: 'DEPARTAMENTO', label: <label>Por Departamento <FontAwesomeIcon className='ms-2' icon={faBuildingUser} /></label> }
-              ]}
+              options={firstSelectOptions}
             />
-
-            {/* Select by keys from parent filter */}
-            {activeFilter !== 'ALL' && (
-              <Select
-                onChange={(e) => handleItemFilterChildClick(e !== null ? e.value : 'NONE')}
-                placeholder={dropdownFilterChildLabel}
-                className='select-filter ms-2'
-                isClearable={true}
-                name="filtro"
-                options={filteredKeys.map(key => ({ value: key, label: key }))}
-              />
-            )}
           </Nav>
 
         </Navbar.Collapse>
