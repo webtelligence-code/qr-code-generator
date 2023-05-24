@@ -1,21 +1,22 @@
-import { faBolt, faBook, faBookOpen, faBuilding, faBuildingUser, faCity } from '@fortawesome/free-solid-svg-icons'
+import { faBolt, faBookOpen, faDroplet, faHammer, faPaintRoller, faScrewdriverWrench, faWrench } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Tooltip } from 'antd';
-import React, { useState } from 'react'
+import React from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import Select from 'react-select';
 
-const CustomNavbar = ({ activeFilter, setActiveFilter }) => {
+const CustomNavbar = ({ setActiveFilter }) => {
 
   const handleItemFilterClick = (item) => {
     setActiveFilter(item)
   }
 
   const firstSelectOptions = [
-    { value: 'CONCESSAO', label: <label>Por Concessão <FontAwesomeIcon className='ms-2' icon={faCity} /></label> },
-    { value: 'FUNCAO', label: <label>Por Função <FontAwesomeIcon className='ms-2' icon={faBolt} /></label> },
-    { value: 'EMPRESA', label: <label>Por Empresa <FontAwesomeIcon className='ms-2' icon={faBuilding} /></label> },
-    { value: 'DEPARTAMENTO', label: <label>Por Departamento <FontAwesomeIcon className='ms-2' icon={faBuildingUser} /></label> }
+    { value: 'Pintor', label: <label>Pintor<FontAwesomeIcon className='ms-2' icon={faPaintRoller} /></label> },
+    { value: 'Lavador', label: <label>Lavador<FontAwesomeIcon className='ms-2' icon={faDroplet} /></label> },
+    { value: 'Mecânico', label: <label>Mecânico<FontAwesomeIcon className='ms-2' icon={faWrench} /></label> },
+    { value: 'Bate Chapas', label: <label>Bate Chapas<FontAwesomeIcon className='ms-2' icon={faHammer} /></label> },
+    { value: 'Chefe de Oficina', label: <label>Chefe de Oficina<FontAwesomeIcon className='ms-2' icon={faScrewdriverWrench} /></label> }
   ];
 
   return (
@@ -37,8 +38,7 @@ const CustomNavbar = ({ activeFilter, setActiveFilter }) => {
             {/* Select by Concessão, Departamento, Função, Empresa */}
             <Select
               onChange={(e) => handleItemFilterClick(e !== null ? e.value : 'ALL')}
-              value={activeFilter === 'ALL' ? null : firstSelectOptions[3]}
-              placeholder='Filtrar tabelas'
+              placeholder={<label>Filtrar função<FontAwesomeIcon className='ms-2' icon={faBolt} /></label>}
               className='select-filter'
               isClearable={true}
               name="filtro"

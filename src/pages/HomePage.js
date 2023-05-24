@@ -4,41 +4,42 @@ import CustomNavbar from '../components/CustomNavbar';
 import CustomTable from '../components/CustomTable';
 
 const HomePage = ({ users, sessionDepartment, API_URL }) => {
-  const [activeFilter, setActiveFilter] = useState('DEPARTAMENTO');
+  const [activeFilter, setActiveFilter] = useState('ALL');
   const [groupedUsers, setGroupedUsers] = useState([]);
 
   useEffect(() => {
+    let filteredUsers;
+
     if (activeFilter === 'ALL') {
-      document.title = 'Todos os utilizadores';
-      setGroupedUsers(users);
+      filteredUsers = users
     } else {
-      const filteredUsers = users.filter((user) => user.DEPARTAMENTO === sessionDepartment);
-
-      const newGroupedUsers = filteredUsers.reduce((acc, user) => {
-        const key = user[activeFilter];
-        if (!acc[key]) {
-          acc[key] = [];
-        }
-        acc[key].push(user);
-        return acc;
-      }, {});
-
-      const orderedKeys = Object.keys(newGroupedUsers).sort();
-      const orderedGroupedUsers = orderedKeys.reduce((acc, key) => {
-        acc[key] = newGroupedUsers[key];
-        return acc;
-      }, {});
-
-      setGroupedUsers(orderedGroupedUsers);
+      filteredUsers = users.filter((user) => user.FUNCAO === activeFilter);
     }
-  }, [activeFilter, sessionDepartment, users]);
+
+    const newGroupedUsers = filteredUsers.reduce((acc, user) => {
+      const key = user.CONCESSAO;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(user);
+      return acc;
+    }, {});
+
+    const orderedKeys = Object.keys(newGroupedUsers).sort();
+    const orderedGroupedUsers = orderedKeys.reduce((acc, key) => {
+      acc[key] = newGroupedUsers[key];
+      return acc;
+    }, {});
+
+    console.log(orderedGroupedUsers)
+
+    setGroupedUsers(orderedGroupedUsers);
+  }, [activeFilter, users]);
 
   return (
     <Container fluid>
       <CustomNavbar
-        activeFilter={activeFilter}
         setActiveFilter={setActiveFilter}
-        sessionDepartment={sessionDepartment}
       />
       <CustomTable users={groupedUsers} activeFilter={activeFilter} qrCodeSize={100} />
     </Container>

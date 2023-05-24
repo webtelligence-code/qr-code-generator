@@ -15,14 +15,21 @@ function getUsername()
 {
   return $_SESSION['USERNAME'];
 }
-function getDepartment() {
+function getDepartment()
+{
   return $_SESSION['DEPARTAMENTO'];
 }
 // Function that will fetch all users (guests) from the database
 function getUsers()
 {
   global $conn;
-  $sql = 'SELECT * FROM users WHERE ACT = 1 AND COLABORADOR = 1 ORDER BY NAME ASC';
+  $sql = "SELECT * FROM users 
+          WHERE ACT = 1 
+          AND COLABORADOR = 1
+          AND DEPARTAMENTO = 'Pós Venda'
+          AND FUNCAO IN ('Pintor', 'Lavador', 'Mecânico', 'Bate Chapas', 'Chefe de Oficina')
+          ORDER BY NAME ASC";
+          
   $result = $conn->query($sql);
 
   $users = array();
