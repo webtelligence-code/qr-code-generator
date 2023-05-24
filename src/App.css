@@ -35,3 +35,10 @@
   border-radius: 5px;
   padding-inline: 10px;
 }
+
+.user-label {
+  background-color: #ed6337;
+  border-radius: 5px;
+  color: white;
+  padding: 5px
+}

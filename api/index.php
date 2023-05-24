@@ -18,14 +18,20 @@ switch ($method) {
   case 'GET':
     $get_action = isset($_GET['action']) ? $_GET['action'] : '';
     switch ($get_action) {
-      case 'get_username':
-        $response = getUsername();
+      case 'get_session_data':
+        $response = getSessionData();
         break;
-      case 'get_department':
-        $response = getDepartment();
+      case 'get_current_user':
+        $username = isset($_GET['username']) ? $_GET['username'] : '';
+        $response = getCurrentUser($username);
         break;
       case 'get_users':
-        $response = getUsers();
+        $concessions = isset($_GET['concessions']) ? $_GET['concessions'] : '';
+        $response = getUsers($concessions);
+        break;
+      case 'get_sales_boss_concessions':
+        $username = isset($_GET['username']) ? $_GET['username'] : '';
+        $response = getSalesBossConcessions($username);
         break;
       default:
         if ($get_action == '') {
