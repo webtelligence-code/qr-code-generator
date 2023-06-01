@@ -73,7 +73,7 @@ const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
             >
               {KEY}
               <Image
-                src='qr-code-generator/assets/img/pdf-download-2.png'
+                src='https://webtelligence.pt/qr-code-generator/assets/img/pdf-download-2.png'
                 onClick={() => generatePDF(KEY, users[KEY])}
                 height={40}
                 alt='download-pdf'
@@ -92,11 +92,11 @@ const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
                     <th className='text-end'>QRCode</th>
                   </tr>
                 </thead>
-                <tbody>
-                  {loading ? (
-                    <LoadingBars />
-                  ) : (
-                    users[KEY].map((user, key) => (
+                {loading ? (
+                  <LoadingBars />
+                ) : (
+                  <tbody>
+                    {users[KEY].map((user, key) => (
                       <tr style={{ color: '#77321c', fontSize: 15 }} key={key}>
                         <td className='align-middle text-start'>{user.NAME}</td>
                         <td className='align-middle text-center'>{user.EMPRESA}</td>
@@ -110,9 +110,9 @@ const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
                           />
                         </td>
                       </tr>
-                    ))
-                  )}
-                </tbody>
+                    ))}
+                  </tbody>
+                )}
               </Table>
             </Card.Body>
           </Card>

@@ -11,7 +11,7 @@ const HomePage = ({ users, currentUser, sessionData, concessions, API_URL }) => 
   console.log('Users Home Page:', users);
 
   useEffect(() => {
-    let filteredUsers;
+    let filteredUsers = [];
 
     if (activeFilter === 'ALL') {
       filteredUsers = users;
