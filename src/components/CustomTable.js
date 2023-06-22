@@ -30,12 +30,12 @@ const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
 
     const usersDataWithQRCode = [];
     for (const user of userData) {
-      const qrCodeImageUrl = await generateQRCodeForPDF(user.NAME);
+      const qrCodeImageUrl = await generateQRCodeForPDF(user.nameDisplay);
       usersDataWithQRCode.push({
-        NAME: user.NAME,
-        EMPRESA: user.EMPRESA,
-        DEPARTAMENTO: user.DEPARTAMENTO,
-        FUNCAO: user.FUNCAO,
+        NAME: user.nameDisplay,
+        EMPRESA: user.empresa,
+        DEPARTAMENTO: user.departamento,
+        FUNCAO: user.funcao,
         qrCodeData: qrCodeImageUrl,
       });
     }
@@ -98,14 +98,14 @@ const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
                   <tbody>
                     {users[KEY].map((user, key) => (
                       <tr style={{ color: '#77321c', fontSize: 15 }} key={key}>
-                        <td className='align-middle text-start'>{user.NAME}</td>
-                        <td className='align-middle text-center'>{user.EMPRESA}</td>
-                        <td className='align-middle text-center'>{user.CONCESSAO}</td>
-                        <td className='align-middle text-center'>{user.DEPARTAMENTO}</td>
-                        <td className='align-middle text-center'>{user.FUNCAO}</td>
+                        <td className='align-middle text-start'>{user.nameDisplay}</td>
+                        <td className='align-middle text-center'>{user.empresa}</td>
+                        <td className='align-middle text-center'>{user.concessao}</td>
+                        <td className='align-middle text-center'>{user.departamento}</td>
+                        <td className='align-middle text-center'>{user.funcao}</td>
                         <td className='align-middle text-end'>
                           <QRCodeSVG
-                            value={user.NAME}
+                            value={user.nameDisplay}
                             size={qrCodeSize}
                           />
                         </td>

@@ -16,15 +16,15 @@ const HomePage = ({ users, currentUser, sessionData, concessions, API_URL }) => 
     if (activeFilter === 'ALL') {
       filteredUsers = users;
     } else {
-      filteredUsers = users.filter((user) => user.FUNCAO === activeFilter);
+      filteredUsers = users.filter((user) => user.funcao === activeFilter);
     }
 
     if (activeConcession !== 'ALL') {
-      filteredUsers = filteredUsers.filter((user) => user.CONCESSAO === activeConcession);
+      filteredUsers = filteredUsers.filter((user) => user.concessao === activeConcession);
     }
 
     const newGroupedUsers = filteredUsers.reduce((acc, user) => {
-      const key = user.CONCESSAO;
+      const key = user.concessao;
       if (!acc[key]) {
         acc[key] = [];
       }

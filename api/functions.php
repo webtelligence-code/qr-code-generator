@@ -1,6 +1,6 @@
 <?php
 
-include 'DatabaseConnect.php';
+include '../DatabaseConnect.php';
 include 'session.php';
 
 $databaseObj = new DatabaseConnect;
@@ -33,20 +33,20 @@ function getUsers($concessions)
   }
 
   if ($_SESSION['USERNAME'] == 'pedromatos@AM098') {
-    $sql = "SELECT * FROM users 
-            WHERE ACT = 1 
-            AND COLABORADOR = 1
-            AND DEPARTAMENTO = 'Pós Venda'
-            AND FUNCAO IN ('Pintor', 'Lavador', 'Mecânico', 'Bate Chapas', 'Chefe de Oficina')
-            ORDER BY NAME ASC";
+    $sql = "SELECT * FROM tbusers 
+            WHERE ativo = 1 
+            AND colaborador = 1
+            AND departamento = 'Pós Venda'
+            AND funcao IN ('Pintor', 'Lavador', 'Mecânico', 'Bate Chapas', 'Chefe de Oficina')
+            ORDER BY nameDisplay ASC";
   } else {
-    $sql = "SELECT * FROM users 
-          WHERE ACT = 1 
-          AND COLABORADOR = 1
-          AND DEPARTAMENTO = 'Pós Venda'
-          AND FUNCAO IN ('Pintor', 'Lavador', 'Mecânico', 'Bate Chapas', 'Chefe de Oficina')
-          AND CONCESSAO IN ($concessionsList)
-          ORDER BY NAME ASC";
+    $sql = "SELECT * FROM tbusers 
+          WHERE ativo = 1 
+          AND colaborador = 1
+          AND departamento = 'Pós Venda'
+          AND funcao IN ('Pintor', 'Lavador', 'Mecânico', 'Bate Chapas', 'Chefe de Oficina')
+          AND concessao IN ($concessionsList)
+          ORDER BY nameDisplay ASC";
   }
 
   $result = $conn->query($sql);
@@ -67,8 +67,8 @@ function getCurrentUser($username)
 {
   global $conn;
 
-  $sql = "SELECT * FROM users 
-          WHERE USERNAME = ?";
+  $sql = "SELECT * FROM tbusers 
+          WHERE username = ?";
 
   $stmt = $conn->prepare($sql);
   $stmt->bind_param('s', $username);

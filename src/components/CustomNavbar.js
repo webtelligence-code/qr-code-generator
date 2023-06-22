@@ -71,7 +71,7 @@ const CustomNavbar = ({ currentUser, sessionData, setActiveFilter, setActiveConc
               <div className='align-self-center ms-2 user-label mb-1'>
                 A aceder como:
                 <FontAwesomeIcon className='mx-2' icon={sessionData.USERNAME === 'pedromatos@AM098' ? faUserShield : faUser} />
-                {currentUser.NAME} ({currentUser.FUNCAO})
+                {currentUser.nameDisplay} ({currentUser.funcao})
               </div>
             )}
           </Nav>

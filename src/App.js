@@ -83,7 +83,7 @@ function App() {
       })
         .then((response) => {
           setUsers(response.data);
-          setConcessions(Array.from(new Set(response.data.map(user => user.CONCESSAO))))
+          setConcessions(Array.from(new Set(response.data.map(user => user.concessao))))
           setLoading(false);
           document.title = 'Utilizadores'
         })
