@@ -33,18 +33,18 @@ function getUsers($concessions)
   }
 
   if ($_SESSION['USERNAME'] == 'pedromatos@AM098') {
-    $sql = "SELECT * FROM tbusers 
+    $sql = "SELECT nameDisplay, userIcar, concessao, funcao, departamento FROM tbusers 
             WHERE ativo = 1 
             AND colaborador = 1
             AND departamento = 'Pós Venda'
-            AND funcao IN ('Pintor', 'Lavador', 'Mecânico', 'Bate Chapas', 'Chefe de Oficina')
+            AND funcao IN ('Pintor', 'Lavador', 'Mecânico', 'Bate Chapas')
             ORDER BY nameDisplay ASC";
   } else {
-    $sql = "SELECT * FROM tbusers 
+    $sql = "SELECT nameDisplay, userIcar, concessao, funcao, departamento FROM tbusers 
           WHERE ativo = 1 
           AND colaborador = 1
           AND departamento = 'Pós Venda'
-          AND funcao IN ('Pintor', 'Lavador', 'Mecânico', 'Bate Chapas', 'Chefe de Oficina')
+          AND funcao IN ('Pintor', 'Lavador', 'Mecânico', 'Bate Chapas')
           AND concessao IN ($concessionsList)
           ORDER BY nameDisplay ASC";
   }

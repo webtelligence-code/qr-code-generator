@@ -29,7 +29,7 @@ const CustomNavbar = ({ currentUser, sessionData, setActiveFilter, setActiveConc
     { value: 'Lavador', label: <label>Lavador<FontAwesomeIcon className='ms-2' icon={faDroplet} /></label> },
     { value: 'Mecânico', label: <label>Mecânico<FontAwesomeIcon className='ms-2' icon={faWrench} /></label> },
     { value: 'Bate Chapas', label: <label>Bate Chapas<FontAwesomeIcon className='ms-2' icon={faHammer} /></label> },
-    { value: 'Chefe de Oficina', label: <label>Chefe de Oficina<FontAwesomeIcon className='ms-2' icon={faScrewdriverWrench} /></label> }
+    // { value: 'Chefe de Oficina', label: <label>Chefe de Oficina<FontAwesomeIcon className='ms-2' icon={faScrewdriverWrench} /></label> }
   ];
 
   return (

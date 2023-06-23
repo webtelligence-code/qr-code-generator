@@ -32,10 +32,9 @@ const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
     for (const user of userData) {
       const qrCodeImageUrl = await generateQRCodeForPDF(user.nameDisplay);
       usersDataWithQRCode.push({
-        NAME: user.nameDisplay,
-        EMPRESA: user.empresa,
-        DEPARTAMENTO: user.departamento,
-        FUNCAO: user.funcao,
+        nameDisplay: user.nameDisplay,
+        userIcar: user.userIcar,
+        funcao: user.funcao,
         qrCodeData: qrCodeImageUrl,
       });
     }
@@ -85,10 +84,9 @@ const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
                 <thead>
                   <tr style={{ color: '#77321c', borderColor: '#77321c' }}>
                     <th className='text-start'>Nome</th>
-                    <th className='text-center'>Empresa</th>
-                    <th className='text-center'>Concessão</th>
-                    <th className='text-center'>Departamento</th>
-                    <th className='text-center'>Função</th>
+                    <th>UserICar</th>
+                    <th>Concessão</th>
+                    <th>Função</th>
                     <th className='text-end'>QRCode</th>
                   </tr>
                 </thead>
@@ -99,10 +97,9 @@ const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
                     {users[KEY].map((user, key) => (
                       <tr style={{ color: '#77321c', fontSize: 15 }} key={key}>
                         <td className='align-middle text-start'>{user.nameDisplay}</td>
-                        <td className='align-middle text-center'>{user.empresa}</td>
-                        <td className='align-middle text-center'>{user.concessao}</td>
-                        <td className='align-middle text-center'>{user.departamento}</td>
-                        <td className='align-middle text-center'>{user.funcao}</td>
+                        <td className='align-middle'>{user.userIcar}</td>
+                        <td className='align-middle'>{user.concessao}</td>
+                        <td className='align-middle'>{user.funcao}</td>
                         <td className='align-middle text-end'>
                           <QRCodeSVG
                             value={user.nameDisplay}
