@@ -4,7 +4,7 @@ import axios from 'axios';
 import LoadingBars from './components/utility/LoadingBars';
 import NoAccessWarning from './components/utility/NoAccessWarning';
 
-const API_URL = 'https://amatoscar.pt/GAP/NovasPlataformas/_API/qr-code-generator/index.php';
+const API_URL = 'https://amatoscar.pt/GAP/NovasPlataformas/_API/QRCodeProdutivos/index.php';
 
 function App() {
   const [users, setUsers] = useState([]);
