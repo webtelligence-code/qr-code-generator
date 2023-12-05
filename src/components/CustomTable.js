@@ -72,7 +72,7 @@ const CustomTable = ({ users, activeFilter, qrCodeSize }) => {
             >
               {KEY}
               <Image
-                src='https://webtelligence.pt/qr-code-generator/assets/img/pdf-download-2.png'
+                src='https://amatoscar.pt/GAP/NovasPlataformas/QRCodeProdutivos/assets/img/pdf-download-2.png'
                 onClick={() => generatePDF(KEY, users[KEY])}
                 height={40}
                 alt='download-pdf'
